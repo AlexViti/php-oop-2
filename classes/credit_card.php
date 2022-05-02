@@ -12,8 +12,7 @@
     public function __construct(int $cc_number, int $cvv, int $expiration_year, int $expiration_month, string $name) {
       $this->setCcNumber($cc_number);
       $this->setCvv($cvv);
-      $this->setExpirationYear($expiration_year);
-      $this->setExpirationMonth($expiration_month);
+      $this->setExpiration($expiration_year, $expiration_month);
       $this->setName($name);
     }
 
@@ -43,7 +42,7 @@
       return $this->name;
     }
 
-    // Private setters
+    // Setters
 
     private function setCcnumber(int $cc_number) :void {
       try {
@@ -73,7 +72,7 @@
       try {
         if ($expiration_year < date('Y')) {
           throw new Exception("Expiration year must be greater than current year");
-        } else if ($expiration_month < date('m')) {
+        } else if ($expiration_year == date('Y') && $expiration_month < date('m')) {
           throw new Exception("Expiration month must be greater than current month");
         } else {
           $this->expiration_year = $expiration_year;
