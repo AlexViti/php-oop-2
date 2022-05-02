@@ -57,6 +57,14 @@ class User {
   public function getPriceInDollars(Item $item) :string {
     return $item->getPriceInDollars();
   }
+
+  public function purchase(Item $item) :bool {
+    if ($this->cc->isValid() && $item->isAvailable()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
 class RegisteredUser extends User {

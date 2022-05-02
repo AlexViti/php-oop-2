@@ -9,8 +9,7 @@ class CreditCard {
   public function __construct(int $cc_number, int $cvv, int $expiration_year, int $expiration_month, string $name) {
     $this->cc_number = $cc_number;
     $this->cvv = $cvv;
-    $this->expiration_year = $expiration_year;
-    $this->expiration_month = $expiration_month;
+    $this->setExpiration($expiration_year, $expiration_month);
     $this->name = $name;
   }
 
@@ -51,8 +50,18 @@ class CreditCard {
   }
 
   public function setExpiration(int $expiration_year, int $expiration_month) :void {
-    $this->expiration_year = $expiration_year;
-    $this->expiration_month = $expiration_month;
+    try {
+      if ($expiration_year < date('Y')) {
+        throw new Exception('Invalid expiration year');
+      } else if ($expiration_year == date('Y') && $expiration_month < date('m')) {
+        throw new Exception('Invalid expiration month');
+      } else {
+        $this->expiration_year = $expiration_year;
+        $this->expiration_month = $expiration_month;
+      }
+    } catch (Exception $e) {
+      echo $e->getMessage();
+    }
   }
 
   public function setName(string $name) :void {
@@ -70,4 +79,4 @@ class CreditCard {
   }
 }
 
-$cc = new CreditCard(1234567890123456, 123, 2024, 12, 'John Doe');
+// $cc = new CreditCard(1234567890123456, 123, 2024, 12, 'John Doe');
